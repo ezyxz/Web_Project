@@ -12,20 +12,23 @@ import java.util.ResourceBundle;
 
 public class DruidConnectTest {
     public static void main(String[] args) throws SQLException {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("jdbc");
-        String driver  = resourceBundle.getString("jdbc.driver");
-        System.out.println(driver);
+//        ResourceBundle resourceBundle = ResourceBundle.getBundle("jdbc");
+//        String driver  = resourceBundle.getString("jdbc.driver");
+//        System.out.println(driver);
         // start
+        System.out.println("connect to aliyun database...");
         ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
         DruidDataSource dataSource = app.getBean(DruidDataSource.class);
         DruidPooledConnection connection = dataSource.getConnection();
+        System.out.println("database connected : "+connection);
+
         Statement statement = connection.createStatement();
-        String sql = "SELECT * FROM mywebuser";
+        String sql = "SELECT * FROM runoob_tbl";
         ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
-            int id  = resultSet.getInt("UserID");
-            String sname = resultSet.getString("userName");
-            String spwd = resultSet.getString("userPWD");
+            int id  = resultSet.getInt("runoob_id");
+            String sname = resultSet.getString("runoob_title");
+            String spwd = resultSet.getString("runoob_author");
             System.out.println(id + "|" + sname + "|" + spwd);
         }
         resultSet.close();
